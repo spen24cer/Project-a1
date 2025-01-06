@@ -1,14 +1,59 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>token release project</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project A1</title>
 </head>
 <body>
+    <h1>Welcome to Project A1</h1>
+    <p>Current Token Data:</p>
 
-<h1>I haven't done this in a while</h1>
-<p>This is a paragraph.</p>
+    <!-- Table to display the token data -->
+    <table id="tokenTable" border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Price (USD)</th>
+                <th>Market Cap</th>
+                <th>Volume</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data rows will go here -->
+        </tbody>
+    </table>
 
+    <!-- Add script to fetch and display data -->
+    <script>
+        // Function to fetch data from CoinGecko API
+        async function fetchTokenData() {
+            const url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd';
+            const response = await fetch(url);
+            const data = await response.json();
+
+            // Get table body element
+            const tableBody = document.querySelector('#tokenTable tbody');
+
+            // Clear any previous data
+            tableBody.innerHTML = '';
+
+            // Loop through the data and add rows to the table
+            data.forEach(token => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${token.name}</td>
+                    <td>${token.current_price}</td>
+                    <td>${token.market_cap}</td>
+                    <td>${token.total_volume}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Call the function to load data when the page loads
+        window.onload = fetchTokenData;
+    </script>
 </body>
 </html>
-
-
